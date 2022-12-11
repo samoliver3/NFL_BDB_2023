@@ -1,0 +1,61 @@
+---
+title: "NFLBDB"
+output: html_document
+date: "2022-12-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Overview
+The NFL Tracking data is too large to view in Excel and Google Sheets, so I am going to clean it here and eliminate data that is unneeded for my purposes.
+
+## Import data
+
+```{r, warning=FALSE, include=FALSE}
+library(readr)
+library(dplyr)
+```
+
+```{r}
+setwd("C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB")
+
+trackingdata <- read.csv("week1.csv")
+head(trackingdata)
+```
+## Clean the data
+Keep relevant columns and clean the rows based on the event type. There are 1,118,112 rows in the week 1 tracking data I would like to subsample this data to make it more manageable to deal with and also clean the dataset.
+
+```{r}
+nrow(trackingdata)
+c_keep <- c('gameId', 'playId', 'nflId', 'frameId', 'time', 'x', 'y', 'event')
+td_df <- trackingdata[c_keep]
+head(td_df)
+```
+
+
+```{r}
+# Now I want to get the unique values in the event column. I can dramatically decrease the size of the file by only keeping the values I am interested in including: pass release, sack, hit, and a few others...
+
+unique(td_df['event'])
+
+# values to keep: pass_forward, fumble, qb_sack, qb_strip_sack, first_contact
+
+td_df <- td_df[td_df$event %in% c('pass_forward', 'fumble', 'qb_sack', 'qb_strip_sack', 'first_contact'),]
+
+# check to see the unique values of the df and check how many rows are present now
+unique(td_df['event'])
+nrow(td_df)
+
+# examine the dataset again
+head(td_df)
+```
+
+## Store the results in a new file
+write the dataframe to a csv file
+
+```{r}
+write.csv(td_df, "C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB\\week1_cleaned.csv", row.names=FALSE)
+```

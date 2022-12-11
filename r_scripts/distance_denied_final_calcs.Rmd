@@ -1,0 +1,49 @@
+---
+title: "Distance Denied By O-Lineman Per Play"
+output: html_notebook
+---
+
+## Overview
+This notebook will take the calculations for distance denied by offensive lineman for individual plays, aggregate that data, and then calculate an average distance per play. This final result will allow the offensive linemen to be ranked with each other.
+
+## Import Data
+
+```{r, warning=FALSE, include=FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+setwd("C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB")
+df <- read.csv("distance_denied_by_Olineman.csv")
+head(df)
+```
+
+## Aggregate the data and find average distance denied
+```{r}
+data_grouped <- df %>%
+  group_by(displayName)
+  
+data_summary <- data_grouped %>%
+  summarise(
+    total_distance = sum(Distance_denied),
+    total_plays = n()
+  )
+
+# Use the mutate() function to calculate the average distance run per play for each player
+data_summary <- data_summary %>%
+  mutate(
+    average_distance_denied_per_play = total_distance / total_plays
+  )
+
+# Print the summary data
+print(data_summary)
+```
+
+## Export the data
+write the dataframe to a csv file
+
+```{r}
+write.csv(data_summary, "C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB\\distance_denied_per_play_week1.csv", row.names=FALSE)
+```

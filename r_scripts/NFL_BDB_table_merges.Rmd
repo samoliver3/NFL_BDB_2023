@@ -1,0 +1,80 @@
+---
+title: "NFLBDB_SQL"
+output: html_document
+date: "2022-12-10"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Overview
+This script will allow me to merge datasets from the NFL Big Data Bowl with SQL queries.
+
+## Import data
+
+```{r, warning=FALSE, include=FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+setwd("C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB")
+trackingclean <- read.csv("week1_cleaned.csv")
+head(trackingclean)
+```
+
+```{r}
+setwd("C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB")
+pff <- read.csv("pff_cleaned.csv")
+head(pff)
+```
+
+```{r}
+setwd("C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB")
+players <- read.csv("players_clean.csv")
+head(players)
+```
+
+```{r}
+setwd("C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB")
+plays <- read.csv("plays_clean.csv")
+head(plays)
+```
+
+## Merge the datasets
+
+```{r}
+df_tpff <- merge(trackingclean, pff, by=c('gameId', 'playId', 'nflId'))
+head(df_tpff)
+```
+Check how many rows are in the new df
+
+```{r}
+nrow(df_tpff)
+```
+
+Merge players dataset with df_tpff
+
+```{r}
+df_tpffp <- merge(df_tpff, players, by='nflId')
+head(df_tpffp)
+nrow(df_tpffp)
+```
+
+Merge plays dataset with df_tpffp
+
+```{r}
+df_tpffpp <- merge(df_tpffp, plays, by=c('gameId', 'playId'))
+head(df_tpffpp)
+nrow(df_tpffpp)
+```
+
+## Store the results in a new file
+write the dataframe to a csv file
+
+```{r}
+write.csv(df_tpffpp, "C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB\\all_data_week1.csv", row.names=FALSE)
+```

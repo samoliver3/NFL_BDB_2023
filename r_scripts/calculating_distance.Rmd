@@ -1,0 +1,92 @@
+---
+title: "NFLBDB Calculating Distance"
+output: html_notebook
+---
+
+## Overview
+This notebook will calculate the distance between O-linemen and the passer after
+one of the following events have occurred: a pass has been thrown, a sack
+occurred, or a strip sack occurred. If a sack or hit on the quarterback occurred,
+and the O-lineman responsible for blocking the player that gets the sack or hit, 
+then the distance denied will be 0. If the O-lineman is beaten, then the distance
+denied will be equal to the distance between the pass rusher that beat the
+O-lineman and the passer. Otherwise, the distance denied will be equal to the
+O-lineman and the passer at the time of the pass being thrown or the sack
+occurring.
+
+## Import Data
+
+```{r, warning=FALSE, include=FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+setwd("C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB")
+df <- read.csv("week1_all_data_completely_cleaned.csv")
+head(df)
+```
+## Additional Cleaning of the Table
+I need to get rid of some NA values in the table because R will throw errors if these are read.
+I will change these values to 0 so that the logic in calculating distance denied is not corrupted.
+
+```{r}
+df[is.na(df)] <- 0
+```
+
+## Calculate Distance Denied by O-linemen
+
+```{r, warning=FALSE}
+# First, create a new column in the dataframe called "Distance Denied"
+df$Distance_denied <- NA
+
+# Then, loop through each row in the dataframe
+for (i in 1:nrow(df)) {
+  # Check if the passer was sacked or hit
+  if (df$pff_sackAllowed[i] == 1 || df$pff_hitAllowed[i] == 1) {
+    # If the passer was sacked or hit, set the distance to 0
+    df$Distance_denied[i] <- 0
+  } else {
+    # If the passer was not sacked or hit, proceed with calculating the distance
+    
+    # Extract the x and y coordinates of the passer and the O-lineman
+    passer_x <- df$x[df$pff_role == 'Pass' & df$playIdUnique == df$playIdUnique[i]]
+    passer_y <- df$y[df$pff_role == 'Pass' & df$playIdUnique == df$playIdUnique[i]]
+    olineman_x <- df$x[i]
+    olineman_y <- df$y[i]
+    
+    # Check if the O-lineman was beaten by a pass rusher
+    if (df$pff_beatenByDefender[i] == 1) {
+      # If the O-lineman was beaten, find the x and y coordinates of the pass rusher who beat him
+      pass_rusher_x <- df$x[df$pff_nflIdBlockedPlayer[i] == df$nflId & df$playIdUnique == df$playIdUnique[i]]
+      pass_rusher_y <- df$y[df$pff_nflIdBlockedPlayer[i] == df$nflId & df$playIdUnique == df$playIdUnique[i]]
+      
+      # check to see if the blocked player has data for this play. If the data is missing,
+      # then just use o-lineman_x and y data for the positioning to avoid error.
+      if (length(pass_rusher_x) == 0) {
+        pass_rusher_x <- olineman_x
+      }
+      if (length(pass_rusher_y) == 0) {
+        pass_rusher_y <- olineman_y
+      }
+      
+      # Use the distance formula to calculate the distance between the pass rusher and the passer
+      distance <- sqrt((passer_x - pass_rusher_x)^2 + (passer_y - pass_rusher_y)^2)
+    } else {
+      # If the O-lineman was not beaten, use the distance formula to calculate the distance between the passer and the O-lineman
+      distance <- sqrt((passer_x - olineman_x)^2 + (passer_y - olineman_y)^2)
+    }
+    
+    # Save the calculated distance in the "Distance" column of the dataframe
+    df$Distance_denied[i] <- distance
+  }
+}
+```
+
+## Export the data
+write the dataframe to a csv file
+
+```{r}
+write.csv(df, "C:\\Users\\samue\\OneDrive\\Desktop\\NFL_BDB\\distance_denied_week1.csv", row.names=FALSE)
+```
