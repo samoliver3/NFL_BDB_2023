@@ -26,3 +26,6 @@ Multipe R notebooks, accompanied with filtering the data in Google Sheets, were 
 The best performing offensive linemen for the week 1 data can be visualized with the chart below. The chart includes the top 50 offensive linemen for week 1 in which more distance denied per play results in a higher ranking than a lower value.
 
 ![week1Results](/AverageDistanceDeniedPasserOffensiveLinemenPerPlayWeek1.png)
+
+## Future Work
+This metric can be aggregated across multiple weeks or whole seasons to evaluate performance of offensive linemen and compare performances across individual players and teams. Distance Denied and the rankings produced by it can also be correlated with other measures of success for offensive linemen and cross-validated with the linemen grading system to understand how well Distance Denied measures performance.
