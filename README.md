@@ -21,3 +21,8 @@ The data for this project includes the NFL’s Next Gen Stats data (>1M data poi
 
 ## Methods
 Multipe R notebooks, accompanied with filtering the data in Google Sheets, were used to clean the data. After merging and cleaning the data throughout several different steps in the whole process, the final metric "Average Distance Denied to the Passer Per Play" was produced. This distance takes the distance denied per offensive linemen and sums it over an entire game and finally divides by the number of plays in which the O-lineman blocked someone during that game. This process was carried out for the first week of data in the dataset, but it could be aggregated across the whole season or across many games with the incorporation of more data.
+
+## Results
+The best performing offensive linemen for the week 1 data can be visualized with the chart below. The chart includes the top 50 offensive linemen for week 1 in which more distance denied per play results in a higher ranking than a lower value.
+
+![week1Results](/AverageDistanceDeniedPasserOffensiveLinemenPerPlayWeek1.png)
