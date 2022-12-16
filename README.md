@@ -10,7 +10,7 @@ The National Football League (NFL) is back with another Big Data Bowl, where con
 Quarterbacks may get the glory, but some of the most important work takes place a few feet in front of them. The offensive line protects the passer, providing precious seconds to find receivers downfield. At the same time, the opposing team’s defensive line attempts to find a disruptive path. If a defender sneaks through, it can mean a sack, a blocked pass, or even a turnover. Some of the game’s most important plays happen on the line and this competition examines the data behind the hardest workers in football.
 
 ## New Metric Proposal: Distance Denied to the Passer
-![donald_gif](/Donald.gif)
+![donald_gif](./images/Donald.gif)
 
 It's notoriously difficult to grade offensive linemen, and the [-2.0 to 2.0](https://www.pff.com/news/pro-how-we-grade-offensive-and-defensive-linemen) scale seems a bit odd and subjective. Distance denied to the passer is fairly self explanatory. It basically describes the amount of distance between the offensive lineman and the passer left when a play is made assuming that the lineman is blocking or has blocked a player on the play. This metric is describing how much distance a specific lineman was able to deny to the pass rusher that he blocked. Instead of using an unspecific point scale for grading offensive linemen on pass plays, a metric, "Distance Denied", can be used to easily evaluate and compare linemen to each other.
 
@@ -25,7 +25,7 @@ Multipe R notebooks, accompanied with filtering the data in Google Sheets, were 
 ## Results
 The best performing offensive linemen for the week 1 data can be visualized with the chart below. The chart includes the top 50 offensive linemen for week 1 in which more distance denied per play results in a higher ranking than a lower value.
 
-![week1Results](/AverageDistanceDeniedPasserOffensiveLinemenPerPlayWeek1.png)
+![week1Results](./images/AverageDistanceDeniedPasserOffensiveLinemenPerPlayWeek1.png)
 
 ## Future Work
 This metric can be aggregated across multiple weeks or whole seasons to evaluate performance of offensive linemen and compare performances across individual players and teams. Distance Denied and the rankings produced by it can also be correlated with other measures of success for offensive linemen and cross-validated with the linemen grading system to understand how well Distance Denied measures performance.
