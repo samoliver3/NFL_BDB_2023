@@ -1,7 +1,7 @@
 # NFL Big Data Bowl 2023
 Project by Sam Oliver
 
-![logo](/nfl_logo.png)
+![logo](./images/nfl_logo.png)
 
 ## Overview
 The National Football League (NFL) is back with another Big Data Bowl, where contestants use Next Gen Stats player tracking data to generate actionable, creative, and novel stats. Previous iterations have considered running backs, defensive backs, and special teams, and have generated metrics that have been used on television and by NFL teams.
